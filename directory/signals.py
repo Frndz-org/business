@@ -22,7 +22,7 @@ async def on_profile_save(sender, instance, created, **kwargs):
     """
 
     if created:
-        stream_data = {'user_id': instance.owner.__str__()}
-        broker_publish('user_info', stream_data)
+        stream_data = {'user_identifier': instance.owner.__str__()}
+        broker_publish('user-data', stream_data)
         chain(get_business_info.s(profile_id=instance.pk), prepare_notification.s(event=Event.Nb)).apply_async(
             countdown=2)
