@@ -1,0 +1,47 @@
+version: '3.8'
+services:
+  redis:
+    image: redis:7.2.4-alpine
+    networks:
+      - app
+  dj-business:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: /app/entrypoint.sh
+    ports:
+      - "8002:8000"
+    env_file: ./.env
+    depends_on:
+      - redis
+    networks:
+      - app
+      - db
+      - celery-rabbitmq
+      - kafka
+  celery:
+    restart: always
+    build:
+      context: .
+    entrypoint: /app/celery_entrypoint.sh
+    env_file: ./.env
+    networks:
+      - celery-rabbitmq
+      - kafka
+      - db
+    depends_on:
+      - dj-business
+
+networks:
+  db:
+    name: ops_pg-database
+    external: true
+  celery-rabbitmq:
+    name: ops_rabbitmq-cluster
+    external: true
+  kafka:
+    name: kafka-stack-docker-compose_default
+    external: true
+  app:
+    name: authentication_default
+    external: true

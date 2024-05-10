@@ -1,0 +1,32 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+django = "*"
+django-ninja = "*"
+django-environ = "*"
+django-cors-headers = "*"
+sentry-sdk = "*"
+django-redis = "*"
+psycopg2-binary = "*"
+gunicorn = "*"
+uvicorn = "*"
+django-async-redis = "*"
+django-allauth = "*"
+dj-database-url = "*"
+pyjwt = {extras = ["crypto"], version = "*"}
+faststream = {extras = ["kafka"], version = "*"}
+whitenoise = "*"
+celery = "*"
+starlette = "*"
+django-countries = "*"
+django-tinymce = "*"
+
+[dev-packages]
+conventional-commit = "*"
+
+[requires]
+python_version = "3.11"
+python_full_version = "3.11.8"
