@@ -53,7 +53,7 @@ def get_business(request, identifier):
         return 404, {"detail": "Business Not Found"}
 
 
-@router.post('/businesses', response={201: Message, 404: Message})
+@router.post('/businesses', response={201: Message, 400: Message, 404: Message})
 def add_new_business(request, payload: AddBusiness):
     """
     Add a new business
@@ -62,9 +62,6 @@ def add_new_business(request, payload: AddBusiness):
     :return:
     """
     try:
-
-        print(payload.dict())
-
         industry = Industry.objects.get(identifier=payload.industry)
 
         payload.industry = industry
