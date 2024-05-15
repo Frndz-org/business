@@ -43,5 +43,5 @@ networks:
     name: kafka-stack-docker-compose_default
     external: true
   app:
-    name: authentication_default
+    name: business_default
     external: true
