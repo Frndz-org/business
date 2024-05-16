@@ -66,7 +66,7 @@ def add_new_business(request, payload: AddBusiness):
 
         payload.industry = industry
 
-        Profile.objects.create(**payload.dict())
+        Profile.objects.create(**payload.dict(), owner=request.auth['id'])
 
         return 201, {"detail": "Business Added"}
 
@@ -88,7 +88,7 @@ def update_business(request, identifier, payload: UpdateBusiness):
     """
     try:
 
-        profile = Profile.objects.get(identifier=identifier)
+        profile = Profile.objects.get(identifier=identifier, owner=request.auth['id'])
 
         profile.name = payload.name
 
