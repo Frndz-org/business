@@ -12,11 +12,9 @@ class IndustrySchema(ModelSchema):
 
 
 class BusinessSchema(ModelSchema):
-    industry: IndustrySchema
-
     class Meta:
         model = Profile
-        exclude = ['updated', 'created', 'owner', 'id', 'country']
+        exclude = ['updated', 'created', 'owner', 'industry', 'id', 'country']
 
 
 class BusinessStatus(ModelSchema):

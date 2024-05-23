@@ -47,7 +47,6 @@ class TokenBasedAuthorization(HttpBearer):
             return payload["user"]
 
         except (jwt.exceptions.ExpiredSignatureError, jwt.DecodeError):
-            print("Token is expired")
             raise HttpError(401, "Token expired")
 
     @staticmethod
