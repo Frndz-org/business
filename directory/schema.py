@@ -12,6 +12,8 @@ class IndustrySchema(ModelSchema):
 
 
 class BusinessSchema(ModelSchema):
+    industry_identifier: str
+
     class Meta:
         model = Profile
         exclude = ['updated', 'created', 'owner', 'industry', 'id', 'country']
