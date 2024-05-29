@@ -12,9 +12,9 @@ else:
     broker = RedisBroker(REDIS_SERVER)
 
 
-# @broker.subscriber('new-notification')
-# async def handle_notification(message):
-#     print(message)
+@broker.subscriber('new-notification')
+async def handle_notification(message):
+    print(message)
 
 
 @asynccontextmanager
