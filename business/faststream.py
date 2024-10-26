@@ -6,10 +6,9 @@ from faststream.kafka import KafkaBroker
 from faststream.redis import RedisBroker
 
 if 'RENDER' not in os.environ:
-    broker = KafkaBroker(settings.KAFKA_SERVERS)
+    broker = KafkaBroker(settings.BROKER_SERVERS)
 else:
-    REDIS_SERVER = f'redis://{settings.REDIS_HOST}:{settings.REDIS_PORT}'
-    broker = RedisBroker(REDIS_SERVER)
+    broker = RedisBroker(settings.BROKER_SERVERS)
 
 
 @broker.subscriber('new-notification')

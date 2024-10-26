@@ -24,6 +24,8 @@ env = environ.Env(DEBUG=(bool, False))
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
@@ -223,23 +225,20 @@ CACHES = {
 # RABBITMQ
 RABBITMQ_HOST = env.str('RABBITMQ_HOST', 'localhost')
 RABBITMQ_PORT = env.str('RABBITMQ_PORT', '5672')
-VHOST_USER = env.str('RABBITMQ_USER')
-VHOST_PASSWORD = env.str('RABBITMQ_PASSWORD')
-VHOST_PERMISSIONS = '".*" ".*" ".*"'
-VHOST = env.str('RABBITMQ_VHOST')
+RABBITMQ_USER = env.str('RABBITMQ_USER')
+RABBITMQ_PASSWORD = env.str('RABBITMQ_PASSWORD')
+RABBITMQ_VHOST = env.str('RABBITMQ_VHOST')
 
 # CELERY
-if 'RENDER' not in os.environ:
-    CELERY_BROKER_URL = f"amqp://{VHOST_USER}:{VHOST_PASSWORD}@{RABBITMQ_HOST}:{RABBITMQ_PORT}/{VHOST}"
-else:
-    CELERY_BROKER_URL = f"redis://{RABBITMQ_HOST}:{RABBITMQ_PORT}"
-CELERY_ACCEPT_CONTENT = ['application/json']
+
+CELERY_BROKER_PROTOCOL = env.str('CELERY_BROKER_PROTOCOL', 'amqp')
+CELERY_BROKER_URL = f"{CELERY_BROKER_PROTOCOL}://{RABBITMQ_USER}:{RABBITMQ_PASSWORD}@{RABBITMQ_HOST}:{RABBITMQ_PORT}/{RABBITMQ_VHOST}"
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 # CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # KAFKA
-KAFKA_SERVERS = env.str('KAFKA_SERVERS')
+BROKER_SERVERS = env.str('BROKER_SERVERS')
 
 # TINYMCE
 TINYMCE_JS_URL = "https://cdn.tiny.cloud/1/f5utj29if1r9kktzbzi9dmrkky45qhctzs0au4gp68jgmon0/tinymce/6/tinymce.min.js"
