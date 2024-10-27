@@ -3,11 +3,12 @@ import uuid
 from django.db import models
 from django_countries.fields import CountryField
 
+from business.models import CommonField
+
 
 # Create your models here.
-class Industry(models.Model):
+class Industry(CommonField):
     name = models.CharField(max_length=100, unique=True)
-    identifier = models.UUIDField(default=uuid.uuid4)
 
     class Meta:
         verbose_name = 'Industry'
@@ -17,7 +18,7 @@ class Industry(models.Model):
         return self.name
 
 
-class Profile(models.Model):
+class Profile(CommonField):
     class STATUS(models.TextChoices):
         Ac = 'ACTIVE', 'ACTIVE'
         Sup = 'SUSPENDED', 'SUSPENDED'
@@ -29,11 +30,8 @@ class Profile(models.Model):
     contact = models.CharField(max_length=30)
     industry = models.ForeignKey(Industry, related_name='businesses', on_delete=models.PROTECT)
     country = CountryField(default='GH')
-    owner = models.UUIDField(default=uuid.uuid4)
-    identifier = models.UUIDField(default=uuid.uuid4)
     status = models.CharField(max_length=15, choices=STATUS.choices, default=STATUS.Ac)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+    owner = models.UUIDField(default=uuid.uuid4)
 
     @property
     def industry_identifier(self):

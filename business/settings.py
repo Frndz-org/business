@@ -55,6 +55,7 @@ THIRD_PARTY_APPS = [
 
 CUSTOM_APPS = [
     'directory',
+    'location',
     'messaging'
 ]
 
