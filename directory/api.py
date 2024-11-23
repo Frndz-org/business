@@ -54,7 +54,7 @@ def get_business(request, identifier):
 
 
 @router.post('/businesses', response={201: Message, 400: Message, 404: Message})
-def add_new_business(request, payload: AddBusiness):
+def add_new_business(request, payload: AddBusiness, output=None):
     """
     Add a new business
     :param request:
@@ -65,6 +65,11 @@ def add_new_business(request, payload: AddBusiness):
         industry = Industry.objects.get(identifier=payload.industry)
 
         payload.industry = industry
+
+        if output == 'id':
+            profile = Profile.objects.create(**payload.dict(), owner=request.auth['id'])
+
+            return 201, {'detail': "Business Added", 'id': profile.identifier.__str__()}
 
         Profile.objects.create(**payload.dict(), owner=request.auth['id'])
 
