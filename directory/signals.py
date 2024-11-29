@@ -22,7 +22,7 @@ async def on_profile_save(sender, instance, created, **kwargs):
     """
 
     if created:
-        Location.objects.create(name='HQ', address=instance.address, city=instance.city, contact=instance.contact,
+        Location.objects.acreate(name='HQ', address=instance.address, city=instance.city, contact=instance.contact,
                                 business_id=instance.pk)
         stream_data = {'user_identifier': instance.owner.__str__()}
 

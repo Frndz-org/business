@@ -12,7 +12,7 @@ class IndustrySchema(ModelSchema):
 
 
 class BusinessSchema(ModelSchema):
-    industry_identifier: str
+    industry: str
 
     class Meta:
         model = Profile
