@@ -66,6 +66,8 @@ def add_new_business(request, payload: AddBusiness, output=None):
 
         payload.industry = industry
 
+        print(f"Output: {output}")
+
         if output == 'id':
             profile = Profile.objects.create(**payload.dict(), owner=request.auth['id'])
 
