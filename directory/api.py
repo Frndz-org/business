@@ -68,7 +68,7 @@ def add_new_business(request, payload: AddBusiness, output=None):
 
         print(f"Output: {output}")
 
-        if output == 'id':
+        if str(output) == 'id':
             profile = Profile.objects.create(**payload.dict(), owner=request.auth['id'])
 
             return 201, {'detail': "Business Added", 'id': profile.identifier.__str__()}
