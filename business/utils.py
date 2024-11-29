@@ -12,6 +12,8 @@ from django.http import HttpRequest
 from ninja.errors import HttpError
 from ninja.security import HttpBearer
 
+from business.faststream import broker
+
 
 def broker_publish(topic: str, payload: dict):
     """
@@ -30,6 +32,20 @@ def broker_publish(topic: str, payload: dict):
 
     asyncio.get_event_loop().run_until_complete(abroker_publish())
 
+
+async def abroker_publish(topic: str, payload: dict):
+    """
+    A wrapper to publish stream data asynchronously through
+    FastStream
+    :param topic:
+    :param payload:
+    :return:
+    """
+    try:
+        await broker.publisher(topic).publish(payload)
+    except Exception as e:
+        import sentry_sdk
+        sentry_sdk.capture_exception(e)
 
 class TokenBasedAuthorization(HttpBearer):
     """
