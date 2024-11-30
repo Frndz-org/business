@@ -4,7 +4,7 @@ from celery import chain
 from django.db import IntegrityError
 from ninja import Router
 
-from business.schema import Message
+from business.schema import Message, CreateResourceMessage
 from directory.models import Industry, Profile
 from directory.schema import IndustrySchema, BusinessSchema, AddBusiness, BusinessStatus, UpdateBusiness
 from directory.tasks import get_business_info
@@ -53,7 +53,7 @@ def get_business(request, identifier):
         return 404, {"detail": "Business Not Found"}
 
 
-@router.post('/businesses', response={201: Message, 400: Message, 404: Message})
+@router.post('/businesses', response={201: CreateResourceMessage, 400: Message, 404: Message})
 def add_new_business(request, payload: AddBusiness, output=None):
     """
     Add a new business
