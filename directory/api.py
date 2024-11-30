@@ -66,9 +66,7 @@ def add_new_business(request, payload: AddBusiness, output=None):
 
         payload.industry = industry
 
-        print(f"Output: {output}")
-
-        if str(output) == 'id':
+        if output == 'id':
             profile = Profile.objects.create(**payload.dict(), owner=request.auth['id'])
 
             return 201, {'detail': "Business Added", 'id': profile.identifier.__str__()}
@@ -80,7 +78,9 @@ def add_new_business(request, payload: AddBusiness, output=None):
     except Industry.DoesNotExist:
         return 404, {"detail": "Unknown Industry"}
 
-    except IntegrityError:
+    except IntegrityError as e:
+        import sentry_sdk
+        sentry_sdk.capture_exception(e)
         return 400, {"detail": "A business exist with the information provided"}
 
 
