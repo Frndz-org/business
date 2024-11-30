@@ -14,6 +14,10 @@ class IndustrySchema(ModelSchema):
 class BusinessSchema(ModelSchema):
     industry: str
 
+    @staticmethod
+    def resolve_industry(business):
+        return business.identifier.__str__()
+
     class Meta:
         model = Profile
         exclude = ['updated', 'created', 'owner', 'industry', 'id', 'country']
