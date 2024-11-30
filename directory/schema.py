@@ -13,10 +13,15 @@ class IndustrySchema(ModelSchema):
 
 class BusinessSchema(ModelSchema):
     industry: str
+    identifier: str
+
+    @staticmethod
+    def resolve_identifier(business):
+        return business.identifier.__str__()
 
     @staticmethod
     def resolve_industry(business):
-        return business.identifier.__str__()
+        return business.industry.identifier.__str__()
 
     class Meta:
         model = Profile
